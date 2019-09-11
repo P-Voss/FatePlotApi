@@ -7,8 +7,10 @@ namespace App\Service;
 interface ServiceFactory
 {
 
-
-    public function getPlotService ();
+    /**
+     * @return AbstractPlotService
+     */
+    public function getPlotService (): AbstractPlotService;
 
 
     public function getEpisodeService ();

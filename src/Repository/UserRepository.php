@@ -37,21 +37,14 @@ class UserRepository implements UserProviderInterface
      */
     public function loadUserByUsername ($accessToken)
     {
-        $stmt = $this->db->prepare('SELECT userId, profilname FROM benutzerdaten WHERE accessKey = ?');
-        $stmt->execute([$accessToken]);
-        if ($stmt->rowCount() === 0) {
-            throw new \Exception('User does not exist');
-        }
-        $result = $stmt->fetch();
-        $user = new User();
-        $user->setUserId($result['userId']);
-        $user->setUsername($result['profilname']);
-        $user->addRole(User::USER_ROLE_PLAYER);
-        return $user;
+        return $this->getUser($accessToken, 0, 0);
     }
 
     public function refreshUser (UserInterface $user)
     {
+        var_dump('refreshing');
+        var_dump($user);
+        exit;
         // TODO: Implement refreshUser() method.
     }
 

@@ -5,6 +5,8 @@ namespace App\Service\Gm;
 
 
 use App\Repository\PlotRepository;
+use App\Repository\UserRepository;
+use App\Service\AbstractPlotService;
 
 class ServiceFactory implements \App\Service\ServiceFactory
 {
@@ -25,9 +27,9 @@ class ServiceFactory implements \App\Service\ServiceFactory
     }
 
     /**
-     * @return PlotService
+     * @return AbstractPlotService
      */
-    public function getPlotService ()
+    public function getPlotService (): AbstractPlotService
     {
         return new PlotService($this->plotRepository);
     }

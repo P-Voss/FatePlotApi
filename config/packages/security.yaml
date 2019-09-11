@@ -8,6 +8,7 @@ security:
 
     firewalls:
         dev:
+            stateless: true
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:

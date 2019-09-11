@@ -7,7 +7,6 @@ namespace App\Service;
 use App\Exception\PermissionDeniedException;
 use App\Model\Plot;
 use App\Repository\PlotRepository;
-use App\Repository\UserRepository;
 use Exception;
 
 abstract class AbstractPlotService
@@ -17,21 +16,15 @@ abstract class AbstractPlotService
      * @var PlotRepository
      */
     protected $plotRepository;
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
 
     /**
      * AbstractPlotService constructor.
      *
      * @param PlotRepository $plotRepository
-     * @param UserRepository $userRepository
      */
-    public function __construct (PlotRepository $plotRepository, UserRepository $userRepository)
+    public function __construct (PlotRepository $plotRepository)
     {
         $this->plotRepository = $plotRepository;
-        $this->userRepository = $userRepository;
     }
 
 
@@ -49,6 +42,18 @@ abstract class AbstractPlotService
     public function fetchCharacterPlots (int $characterId)
     {
 
+    }
+
+    /**
+     * @return array
+     */
+    public function fetchPublicPlots ()
+    {
+        try {
+            return $this->plotRepository->fetchPublicPlots();
+        } catch (Exception $exception) {
+            return [];
+        }
     }
 
 
