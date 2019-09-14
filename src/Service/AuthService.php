@@ -4,6 +4,7 @@
 namespace App\Service;
 
 use App\Repository\UserRepository;
+use App\Repository\UserRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,9 +30,9 @@ class AuthService extends AbstractGuardAuthenticator
     /**
      * AuthService constructor.
      *
-     * @param UserRepository $userRepository
+     * @param UserRepositoryInterface $userRepository
      */
-    public function __construct (UserRepository $userRepository)
+    public function __construct (UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
     }
@@ -70,7 +71,7 @@ class AuthService extends AbstractGuardAuthenticator
     public function getCredentials (Request $request)
     {
         return [
-            'token' => $request->headers->get('X-AUTH-TOKEN'),
+            'token' => $request->headers->get('X-AUTH-TOKEN', ''),
             'episodeId' => (int) $request->get('episodeId', 0),
             'plotId' => (int) $request->get('plotId', 0),
         ];
@@ -81,14 +82,13 @@ class AuthService extends AbstractGuardAuthenticator
      * @param UserProviderInterface $userProvider
      *
      * @return UserInterface
+     * @throws \Exception
      */
     public function getUser ($credentials, UserProviderInterface $userProvider)
     {
         try {
             return $this->userRepository->getUser($credentials['token'], $credentials['plotId'], $credentials['episodeId']);
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
-            exit;
             throw new AuthenticationException('User does not exist');
         }
     }
@@ -101,10 +101,6 @@ class AuthService extends AbstractGuardAuthenticator
      */
     public function checkCredentials ($credentials, UserInterface $user)
     {
-        // check credentials - e.g. make sure the password is valid
-        // no credential check is needed in this case
-
-        // return true to cause authentication success
         return true;
     }
 

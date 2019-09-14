@@ -10,7 +10,7 @@ use Doctrine\DBAL\DBALException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class UserRepository implements UserProviderInterface
+class UserRepository implements UserProviderInterface, UserRepositoryInterface
 {
 
     /**
@@ -53,7 +53,7 @@ class UserRepository implements UserProviderInterface
      *
      * @return bool
      */
-    public function supportsClass ($class)
+    public function supportsClass ($class): bool
     {
         return User::class === $class;
     }
@@ -67,7 +67,7 @@ class UserRepository implements UserProviderInterface
      * @return User
      * @throws \Exception
      */
-    public function getUser (string $accessToken, int $plotId, int $episodeId)
+    public function getUser (string $accessToken, int $plotId, int $episodeId): UserInterface
     {
         $stmt = $this->db->prepare('SELECT userId, profilname FROM benutzerdaten WHERE accessKey = ?');
         $stmt->execute([$accessToken]);
