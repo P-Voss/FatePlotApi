@@ -4,7 +4,7 @@
 namespace App\Model;
 
 
-class Plot
+class Plot implements \JsonSerializable
 {
 
     private $plotId;
@@ -197,5 +197,26 @@ class Plot
         $this->targetPlayerNumber = $targetPlayerNumber;
         return $this;
     }
+
+    /**
+     * @return array|mixed
+     */
+    public function jsonSerialize ()
+    {
+        return [
+            'plotId' => $this->plotId,
+            'userId' => $this->userId,
+            'name' => $this->name,
+            'description' => $this->description,
+            'isOpen' => $this->isOpen,
+            'isActive' => $this->isActive,
+            'isSecret' => $this->isSecret,
+            'creationDate' => $this->creationDate,
+            'targetPlayerNumber' => $this->targetPlayerNumber,
+            'participants' => [],
+            'episodes' => [],
+        ];
+    }
+
 
 }

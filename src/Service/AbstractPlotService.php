@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Exception\PermissionDeniedException;
 use App\Model\Plot;
+use App\Repository\PlotGenreRepository;
 use App\Repository\PlotRepository;
 use Exception;
 
@@ -16,15 +17,21 @@ abstract class AbstractPlotService
      * @var PlotRepository
      */
     protected $plotRepository;
+    /**
+     * @var PlotGenreRepository
+     */
+    private $plotGenreRepository;
 
     /**
      * AbstractPlotService constructor.
      *
      * @param PlotRepository $plotRepository
+     * @param PlotGenreRepository $plotGenreRepository
      */
-    public function __construct (PlotRepository $plotRepository)
+    public function __construct (PlotRepository $plotRepository, PlotGenreRepository $plotGenreRepository)
     {
         $this->plotRepository = $plotRepository;
+        $this->plotGenreRepository = $plotGenreRepository;
     }
 
 
@@ -33,15 +40,32 @@ abstract class AbstractPlotService
 
     }
 
-    public function fetchUserPlots (int $userId)
+    /**
+     * @param int $userId
+     *
+     * @return array
+     */
+    public function fetchUserPlots (int $userId): array
     {
-
+        try {
+            return $this->plotRepository->fetchOwnPlots($userId);
+        } catch (Exception $exception) {
+            return [];
+        }
     }
 
-
+    /**
+     * @param int $characterId
+     *
+     * @return Plot[]|array
+     */
     public function fetchCharacterPlots (int $characterId)
     {
-
+        try {
+            return $this->plotRepository->fetchParticipantsPlot($characterId);
+        } catch (Exception $exception) {
+            return [];
+        }
     }
 
     /**
@@ -54,6 +78,14 @@ abstract class AbstractPlotService
         } catch (Exception $exception) {
             return [];
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getPlotgenres ()
+    {
+        return $this->plotGenreRepository->fetchAvailableGenres();
     }
 
 

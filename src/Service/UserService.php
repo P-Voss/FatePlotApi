@@ -31,7 +31,6 @@ class UserService
     {
         /** @var User $user */
         $user = $this->securityService->getUser();
-//        var_dump($this->securityService->isGranted())
         return $user;
     }
 

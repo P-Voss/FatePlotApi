@@ -4,6 +4,7 @@
 namespace App\Service\User;
 
 
+use App\Repository\PlotGenreRepository;
 use App\Repository\PlotRepository;
 use App\Service\AbstractPlotService;
 
@@ -14,15 +15,21 @@ class ServiceFactory implements \App\Service\ServiceFactory
      * @var PlotRepository
      */
     private $plotRepository;
+    /**
+     * @var PlotGenreRepository
+     */
+    private $plotGenreRepository;
 
     /**
      * ServiceFactory constructor.
      *
      * @param PlotRepository $plotRepository
+     * @param PlotGenreRepository $plotGenreRepository
      */
-    public function __construct (PlotRepository $plotRepository)
+    public function __construct (PlotRepository $plotRepository, PlotGenreRepository $plotGenreRepository)
     {
         $this->plotRepository = $plotRepository;
+        $this->plotGenreRepository = $plotGenreRepository;
     }
 
     /**
@@ -30,7 +37,7 @@ class ServiceFactory implements \App\Service\ServiceFactory
      */
     public function getPlotService (): AbstractPlotService
     {
-        return new PlotService($this->plotRepository);
+        return new PlotService($this->plotRepository, $this->plotGenreRepository);
     }
 
     public function getEpisodeService ()

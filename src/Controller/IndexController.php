@@ -29,19 +29,6 @@ class IndexController
     }
 
     /**
-     * IndexController constructor.
-     *
-     * @param Request $request
-     */
-//    public function __construct (Request $request)
-//    {
-//        if (!$this->auth($request)) {
-//            exit('no login');
-//        }
-//        $user = $this->getServiceFactory($request);
-//    }
-
-    /**
      * @Route("/")
      * @param \App\Service\ServiceFactory $serviceFactory
      *
@@ -50,10 +37,13 @@ class IndexController
     public function index(\App\Service\ServiceFactory $serviceFactory)
     {
         $plotService = $serviceFactory->getPlotService();
-//        $plotService->fetchCharacterPlots()
+        $user = $this->userService->getUser();
         return new JsonResponse(
             [
-                'publicPlots' => $plotService->fetchPublicPlots()
+                'publicPlots' => $plotService->fetchPublicPlots(),
+                'ownPlots' => $plotService->fetchUserPlots($user->getUserId()),
+                'participantPlots' => $plotService->fetchCharacterPlots($user->getCharacterId()),
+                'plotGenres' => $plotService->getPlotgenres()
             ]
         );
     }

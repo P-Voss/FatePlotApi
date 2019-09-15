@@ -29,6 +29,10 @@ class User implements UserInterface
      */
     private $characterName = '';
     /**
+     * @var int
+     */
+    private $characterId;
+    /**
      * @var array
      */
     private $roles = [];
@@ -95,10 +99,32 @@ class User implements UserInterface
 
     /**
      * @param string $username
+     *
+     * @return User
      */
     public function setUsername (string $username)
     {
         $this->username = $username;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCharacterId (): int
+    {
+        return $this->characterId;
+    }
+
+    /**
+     * @param int $characterId
+     *
+     * @return User
+     */
+    public function setCharacterId (int $characterId): User
+    {
+        $this->characterId = $characterId;
+        return $this;
     }
 
     /**

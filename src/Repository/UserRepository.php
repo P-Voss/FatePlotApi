@@ -69,15 +69,22 @@ class UserRepository implements UserProviderInterface, UserRepositoryInterface
      */
     public function getUser (string $accessToken, int $plotId, int $episodeId): UserInterface
     {
-        $stmt = $this->db->prepare('SELECT userId, profilname FROM benutzerdaten WHERE accessKey = ?');
+        $stmt = $this->db->prepare(
+            'SELECT benutzerdaten.userId, profilname, charakter.charakterId, charakter.vorname, charakter.nachname 
+            FROM benutzerdaten 
+            LEFT JOIN charakter ON charakter.userId = benutzerdaten.userId AND charakter.active = 1
+            WHERE accessKey = ?'
+        );
         $stmt->execute([$accessToken]);
         if ($stmt->rowCount() === 0) {
             throw new \Exception('User does not exist');
         }
         $result = $stmt->fetch();
         $user = new User();
-        $user->setUserId($result['userId']);
-        $user->setUsername($result['profilname']);
+        $user->setUserId($result['userId'])
+            ->setUsername($result['profilname'])
+            ->setCharacterId($result['charakterId'])
+            ->setCharacterName($result['vorname'] . ' ' . $result['nachname']);
 
         if ($plotId > 0) {
             if ($this->isPlotGm($user->getUserId(), $plotId)){
