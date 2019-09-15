@@ -7,6 +7,8 @@ namespace App\Service\User;
 use App\Repository\PlotGenreRepository;
 use App\Repository\PlotRepository;
 use App\Service\AbstractPlotService;
+use App\Service\UserService;
+use Symfony\Component\Security\Core\Security;
 
 class ServiceFactory implements \App\Service\ServiceFactory
 {
@@ -19,6 +21,10 @@ class ServiceFactory implements \App\Service\ServiceFactory
      * @var PlotGenreRepository
      */
     private $plotGenreRepository;
+    /**
+     * @var Security
+     */
+    private $security;
 
     /**
      * ServiceFactory constructor.
@@ -26,10 +32,11 @@ class ServiceFactory implements \App\Service\ServiceFactory
      * @param PlotRepository $plotRepository
      * @param PlotGenreRepository $plotGenreRepository
      */
-    public function __construct (PlotRepository $plotRepository, PlotGenreRepository $plotGenreRepository)
+    public function __construct (PlotRepository $plotRepository, PlotGenreRepository $plotGenreRepository, Security $security)
     {
         $this->plotRepository = $plotRepository;
         $this->plotGenreRepository = $plotGenreRepository;
+        $this->security = $security;
     }
 
     /**
@@ -55,5 +62,12 @@ class ServiceFactory implements \App\Service\ServiceFactory
         // TODO: Implement getLogService() method.
     }
 
+    /**
+     * @return UserService
+     */
+    public function getUserService (): UserService
+    {
+        return new UserService($this->security);
+    }
 
 }

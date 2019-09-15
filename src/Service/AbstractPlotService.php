@@ -34,10 +34,23 @@ abstract class AbstractPlotService
         $this->plotGenreRepository = $plotGenreRepository;
     }
 
-
+    /**
+     * @param Plot $plot
+     *
+     * @return string
+     * @throws Exception
+     */
     public function createPlot (Plot $plot)
     {
-
+        try {
+            $plotId = $this->plotRepository->create($plot);
+        } catch (Exception $exception) {
+            throw new Exception("Could not create Plot");
+        }
+        try {
+            $this->plotGenreRepository->setPlotGenres($plotId, $plot->getGenres());
+        } catch (Exception $exception) {}
+        return $plotId;
     }
 
     /**

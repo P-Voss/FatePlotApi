@@ -60,7 +60,7 @@ class AuthService extends AbstractGuardAuthenticator
      */
     public function supports (Request $request)
     {
-        return $request->headers->has('X-AUTH-TOKEN');
+        return true;
     }
 
     /**

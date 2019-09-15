@@ -25,12 +25,14 @@ class ServiceFactoryProvider
         if (in_array(User::USER_ROLE_GM, $security->getUser()->getRoles())){
             $serviceFactory = new \App\Service\Gm\ServiceFactory(
                 new PlotRepository($connection),
-                new PlotGenreRepository($connection)
+                new PlotGenreRepository($connection),
+                $security
             );
         } else {
             $serviceFactory = new \App\Service\User\ServiceFactory(
                 new PlotRepository($connection),
-                new PlotGenreRepository($connection)
+                new PlotGenreRepository($connection),
+                $security
             );
         }
 

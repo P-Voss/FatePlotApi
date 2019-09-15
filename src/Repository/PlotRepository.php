@@ -28,6 +28,32 @@ class PlotRepository
     }
 
     /**
+     * @param Plot $plot
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function create (Plot $plot)
+    {
+        $stmt = $this->db->prepare(
+            'INSERT INTO plots (userId, name, isOpen, isSecret, isActive, creationdate, targetPlayerNumber, description) VALUES (?, ?, ?, ?, ?, ?, ? ,?)'
+        );
+        $stmt->execute(
+            [
+                $plot->getUserId(),
+                $plot->getName(),
+                $plot->isOpen() ? 1 : 0,
+                $plot->isSecret() ? 1 : 0,
+                $plot->isActive() ? 1 : 0,
+                $plot->getCreationDate(),
+                $plot->getTargetPlayerNumber(),
+                $plot->getDescription()
+            ]
+        );
+        return $this->db->lastInsertId();
+    }
+
+    /**
      * @return Plot[]
      * @throws Exception
      */

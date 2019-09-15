@@ -4,10 +4,9 @@
 namespace App\Controller;
 
 
-use App\Service\User\ServiceFactory;
+use App\Service\ServiceFactory;
 use App\Service\UserService;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController
@@ -30,11 +29,11 @@ class IndexController
 
     /**
      * @Route("/")
-     * @param \App\Service\ServiceFactory $serviceFactory
+     * @param ServiceFactory $serviceFactory
      *
      * @return JsonResponse
      */
-    public function index(\App\Service\ServiceFactory $serviceFactory)
+    public function index(ServiceFactory $serviceFactory)
     {
         $plotService = $serviceFactory->getPlotService();
         $user = $this->userService->getUser();

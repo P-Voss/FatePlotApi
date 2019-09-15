@@ -21,4 +21,9 @@ interface ServiceFactory
 
     public function getLogService ();
 
+    /**
+     * @return UserService
+     */
+    public function getUserService (): UserService;
+
 }

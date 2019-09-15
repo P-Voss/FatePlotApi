@@ -16,6 +16,7 @@ class Plot implements \JsonSerializable
     private $isSecret = true;
     private $creationDate;
     private $targetPlayerNumber = 0;
+    private $genres = [];
     private $episodes = [];
     private $participants = [];
 
@@ -155,7 +156,7 @@ class Plot implements \JsonSerializable
     /**
      * @param string $format
      *
-     * @return mixed
+     * @return string
      * @throws \Exception
      */
     public function getCreationDate ($format = 'Y-m-d H:i:s')
@@ -199,6 +200,85 @@ class Plot implements \JsonSerializable
     }
 
     /**
+     * @return array
+     */
+    public function getGenres (): array
+    {
+        return $this->genres;
+    }
+
+    /**
+     * @param array $genres
+     *
+     * @return Plot
+     */
+    public function setGenres (array $genres): Plot
+    {
+        $this->genres = $genres;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getEpisodes (): array
+    {
+        return $this->episodes;
+    }
+
+    /**
+     * @param array $episodes
+     *
+     * @return Plot
+     */
+    public function setEpisodes (array $episodes): Plot
+    {
+        $this->episodes = $episodes;
+        return $this;
+    }
+
+    /**
+     * @param Episode $episode
+     *
+     * @return Plot
+     */
+    public function addEpisode (Episode $episode): Plot
+    {
+        $this->episodes[] = $episode;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParticipants (): array
+    {
+        return $this->participants;
+    }
+
+    /**
+     * @param Character[] $participants
+     *
+     * @return Plot
+     */
+    public function setParticipants (array $participants): Plot
+    {
+        $this->participants = $participants;
+        return $this;
+    }
+
+    /**
+     * @param Character $participant
+     *
+     * @return Plot
+     */
+    public function addParticipant (Character $participant): Plot
+    {
+        $this->participants[] = $participant;
+        return $this;
+    }
+
+    /**
      * @return array|mixed
      */
     public function jsonSerialize ()
@@ -213,8 +293,8 @@ class Plot implements \JsonSerializable
             'isSecret' => $this->isSecret,
             'creationDate' => $this->creationDate,
             'targetPlayerNumber' => $this->targetPlayerNumber,
-            'participants' => [],
-            'episodes' => [],
+            'participants' => array_map(function (Character $character) {return $character->jsonSerialize();}, $this->participants),
+            'episodes' => array_map(function (Episode $episode) {return $episode->jsonSerialize();}, $this->episodes),
         ];
     }
 
