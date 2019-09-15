@@ -5,6 +5,7 @@ namespace App\Tests;
 
 
 
+use App\Model\User;
 use App\Service\AuthService;
 use App\Tests\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
@@ -81,4 +82,55 @@ class AuthServiceTest extends TestCase
         $this->expectException(AuthenticationException::class);
         $this->authService->getUser($credentials, $this->userRepository);
     }
+
+
+    public function testHasPlayerRoleOnMissingIds ()
+    {
+        $credentials = [
+            'token' => $this->userRepository::VALID_GM_TOKEN,
+            'plotId' => 1,
+            'episodeId' => 0,
+        ];
+        $user = $this->authService->getUser($credentials, $this->userRepository);
+        $this->assertTrue(in_array(User::USER_ROLE_PLAYER, $user->getRoles()));
+    }
+
+    public function testFailsOnInvalidPlotId ()
+    {
+        $credentials = [
+            'token' => $this->userRepository::VALID_GM_TOKEN,
+            'plotId' => 2000000,
+            'episodeId' => 0,
+        ];
+        $this->expectException(AuthenticationException::class);
+        $this->authService->getUser($credentials, $this->userRepository);
+    }
+
+
+    public function testHasGmRoleOnPlotId ()
+    {
+        $credentials = [
+            'token' => $this->userRepository::VALID_GM_TOKEN,
+            'plotId' => 1,
+            'episodeId' => 0,
+        ];
+        $user = $this->authService->getUser($credentials, $this->userRepository);
+        $this->assertTrue(in_array(User::USER_ROLE_GM, $user->getRoles()));
+    }
+
+
+    public function testHasNoGmRoleOnMissingPlotId ()
+    {
+        $credentials = [
+            'token' => $this->userRepository::VALID_GM_TOKEN,
+            'plotId' => 0,
+            'episodeId' => 0,
+        ];
+        $user = $this->authService->getUser($credentials, $this->userRepository);
+        $this->assertFalse(in_array(User::USER_ROLE_GM, $user->getRoles()));
+    }
+
+
+
+
 }
