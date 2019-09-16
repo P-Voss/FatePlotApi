@@ -9,8 +9,9 @@ use App\Service\ServiceFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class PlotController
+class PlotController extends AbstractController
 {
 
     /**
@@ -29,7 +30,7 @@ class PlotController
     }
 
     /**
-     * @Route("/plot/create", methods={"POST"})
+     * @Route("/plot/create", name="create_plot", methods={"POST"})
      * @param Request $request
      *
      * @return JsonResponse
@@ -52,6 +53,7 @@ class PlotController
             return new JsonResponse([
                 'success' => true,
                 'plotId' => $plotId,
+                'url' => $this->generateUrl('get_plot', ['plotId' => $plotId]),
             ]);
         } catch (\Exception $exception) {
             return new JsonResponse([
@@ -59,6 +61,21 @@ class PlotController
                 'message' => $exception->getMessage()
             ]);
         }
+    }
+
+    /**
+     * @Route("/plot/{plotId}", name="get_plot", methods={"GET"})
+     * @param int $plotId
+     *
+     * @return JsonResponse
+     */
+    public function show (int $plotId)
+    {
+        $plotService = $this->serviceFactory->getPlotService();
+        $plot = $plotService->load($plotId);
+        return new JsonResponse([
+            'plot' => $plot
+        ]);
     }
 
 }

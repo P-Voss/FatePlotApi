@@ -35,6 +35,13 @@ abstract class AbstractPlotService
     }
 
     /**
+     * @param int $plotId
+     *
+     * @return Plot
+     */
+    abstract public function load (int $plotId): Plot;
+
+    /**
      * @param Plot $plot
      *
      * @return string
@@ -82,7 +89,7 @@ abstract class AbstractPlotService
     }
 
     /**
-     * @return array
+     * @return Plot[]
      */
     public function fetchPublicPlots ()
     {
@@ -100,9 +107,6 @@ abstract class AbstractPlotService
     {
         return $this->plotGenreRepository->fetchAvailableGenres();
     }
-
-
-    abstract public function fetchPlot (int $plotId): Plot;
 
     /**
      * @param Plot $plot

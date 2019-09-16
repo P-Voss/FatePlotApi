@@ -16,11 +16,11 @@ class PlotService extends AbstractPlotService
      * @param int $plotId
      *
      * @return Plot
-     * @throws PermissionDeniedException
+     * @throws Exception
      */
-    public function fetchPlot (int $plotId): Plot
+    public function load (int $plotId): Plot
     {
-        throw new PermissionDeniedException('User may not execute this action.');
+        return $this->plotRepository->load($plotId);
     }
 
     /**

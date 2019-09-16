@@ -7,18 +7,58 @@ namespace App\Model;
 class Plot implements \JsonSerializable
 {
 
+    /**
+     * @var int
+     */
     private $plotId;
+    /**
+     * @var int
+     */
     private $userId;
+    /**
+     * @var string
+     */
     private $name;
+    /**
+     * @var string
+     */
     private $description;
+    /**
+     * @var bool
+     */
     private $isOpen = false;
+    /**
+     * @var bool
+     */
     private $isActive = false;
+    /**
+     * @var bool
+     */
     private $isSecret = true;
+    /**
+     * @var string
+     */
     private $creationDate;
+    /**
+     * @var int
+     */
     private $targetPlayerNumber = 0;
+    /**
+     * @var string[]
+     */
     private $genres = [];
+    /**
+     * @var Episode[]
+     */
     private $episodes = [];
+    /**
+     * @var Character[]
+     */
     private $participants = [];
+    /**
+     * @var string[]
+     */
+    private $urls = [];
 
     /**
      * @return mixed

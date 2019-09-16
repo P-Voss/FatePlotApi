@@ -28,6 +28,28 @@ class PlotRepository
     }
 
     /**
+     * @param int $plotId
+     *
+     * @return Plot
+     * @throws Exception
+     */
+    public function load (int $plotId): Plot
+    {
+        $stmt = $this->db->prepare("SELECT * FROM plots WHERE plotId = ?");
+        $stmt->execute([$plotId]);
+        $row = $stmt->fetch();
+        $plot = new Plot();
+        $plot->setPlotId($row['plotId']);
+        $plot->setUserId($row['userId']);
+        $plot->setName($row['name']);
+        $plot->setDescription($row['description']);
+        $plot->setCreationDate($row['creationdate']);
+        $plot->setTargetPlayerNumber($row['targetPlayerNumber']);
+
+        return $plot;
+    }
+
+    /**
      * @param Plot $plot
      *
      * @return string
