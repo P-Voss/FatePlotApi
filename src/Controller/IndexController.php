@@ -30,7 +30,7 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/")
+     * @Route("/", name="index")
      * @param ServiceFactory $serviceFactory
      *
      * @return JsonResponse
@@ -48,28 +48,34 @@ class IndexController extends AbstractController
             [
                 'publicPlots' => array_map(function (Plot $plot) {
                     $plotData = $plot->jsonSerialize();
-                    $plotData['href'] = [
-                        'rel' => 'plots',
-                        'type' => 'GET',
-                        'href' => $this->generateUrl('get_plot', ['plotId' => $plot->getPlotId()])
+                    $plotData['links'] = [
+                        'self' => [
+                            'rel' => 'plots',
+                            'type' => 'GET',
+                            'href' => $this->generateUrl('get_plot', ['plotId' => $plot->getPlotId()])
+                        ]
                     ];
                     return $plotData;
                 }, $publicPlots),
                 'ownPlots' => array_map(function (Plot $plot) {
                     $plotData = $plot->jsonSerialize();
-                    $plotData['href'] = [
-                        'rel' => 'plots',
-                        'type' => 'GET',
-                        'href' => $this->generateUrl('get_plot', ['plotId' => $plot->getPlotId()])
+                    $plotData['links'] = [
+                        'self' => [
+                            'rel' => 'plots',
+                            'type' => 'GET',
+                            'href' => $this->generateUrl('get_plot', ['plotId' => $plot->getPlotId()])
+                        ]
                     ];
                     return $plotData;
                 }, $ownPlots),
                 'participantPlots' => array_map(function (Plot $plot) {
                     $plotData = $plot->jsonSerialize();
-                    $plotData['href'] = [
-                        'rel' => 'plots',
-                        'type' => 'GET',
-                        'href' => $this->generateUrl('get_plot', ['plotId' => $plot->getPlotId()])
+                    $plotData['links'] = [
+                        'self' => [
+                            'rel' => 'plots',
+                            'type' => 'GET',
+                            'href' => $this->generateUrl('get_plot', ['plotId' => $plot->getPlotId()])
+                        ]
                     ];
                     return $plotData;
                 }, $participantPlots),
@@ -79,6 +85,11 @@ class IndexController extends AbstractController
                         'href' => $this->generateUrl('create_plot'),
                         'rel' => 'plots',
                         'method' => 'POST'
+                    ],
+                    'index' => [
+                        'href' => $this->generateUrl('index'),
+                        'rel' => 'plots',
+                        'method' => 'GET'
                     ]
                 ]
             ]

@@ -53,7 +53,18 @@ class PlotController extends AbstractController
             return new JsonResponse([
                 'success' => true,
                 'plotId' => $plotId,
-                'url' => $this->generateUrl('get_plot', ['plotId' => $plotId]),
+                'links' => [
+                    'self' => [
+                        'href' => $this->generateUrl('get_plot', ['plotId' => $plotId]),
+                        'rel' => 'plots',
+                        'method' => 'GET'
+                    ],
+                    'index' => [
+                        'href' => $this->generateUrl('index'),
+                        'rel' => 'plots',
+                        'method' => 'GET'
+                    ]
+                ]
             ]);
         } catch (\Exception $exception) {
             return new JsonResponse([
@@ -74,7 +85,19 @@ class PlotController extends AbstractController
         $plotService = $this->serviceFactory->getPlotService();
         $plot = $plotService->load($plotId);
         return new JsonResponse([
-            'plot' => $plot
+            'plot' => $plot,
+            'links' => [
+                'index' => [
+                    'href' => $this->generateUrl('index'),
+                    'rel' => 'plots',
+                    'method' => 'GET'
+                ],
+                'characterInvitation' => [
+                    'href' => $this->generateUrl('invite_character'),
+                    'rel' => 'characters',
+                    'method' => 'POST'
+                ]
+            ]
         ]);
     }
 
