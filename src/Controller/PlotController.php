@@ -53,7 +53,7 @@ class PlotController extends AbstractController
             return new JsonResponse([
                 'success' => true,
                 'plotId' => $plotId,
-                'links' => [
+                '_links' => [
                     'self' => [
                         'href' => $this->generateUrl('get_plot', ['plotId' => $plotId]),
                         'rel' => 'plots',
@@ -86,7 +86,7 @@ class PlotController extends AbstractController
         $plot = $plotService->load($plotId);
         return new JsonResponse([
             'plot' => $plot,
-            'links' => [
+            '_links' => [
                 'index' => [
                     'href' => $this->generateUrl('index'),
                     'rel' => 'plots',

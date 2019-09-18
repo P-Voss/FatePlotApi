@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Tests\Repository;
+namespace App\Tests\Mock\Repository;
 
 
 use App\Model\User;

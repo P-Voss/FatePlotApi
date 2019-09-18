@@ -1,13 +1,10 @@
 <?php
 
-
-namespace App\Tests;
-
-
+namespace App\Tests\Service;
 
 use App\Model\User;
 use App\Service\AuthService;
-use App\Tests\Repository\UserRepository;
+use App\Tests\Mock\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;

@@ -33,7 +33,7 @@ class CharacterController extends AbstractController
         $id = 12;
         return new JsonResponse(
             [
-                'links' => [
+                '_links' => [
                     'plot' => [
                         'href' => $this->generateUrl('get_plot', ['plotId' => $plotId]),
                         'rel' => 'plots',
@@ -62,7 +62,7 @@ class CharacterController extends AbstractController
     {
         return new JsonResponse(
             [
-                'links' => [
+                '_links' => [
                     'plot' => [
                         'href' => $this->generateUrl('get_plot', ['plotId' => $plotId]),
                         'rel' => 'plots',

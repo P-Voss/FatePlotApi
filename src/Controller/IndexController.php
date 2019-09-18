@@ -48,7 +48,7 @@ class IndexController extends AbstractController
             [
                 'publicPlots' => array_map(function (Plot $plot) {
                     $plotData = $plot->jsonSerialize();
-                    $plotData['links'] = [
+                    $plotData['_links'] = [
                         'self' => [
                             'rel' => 'plots',
                             'type' => 'GET',
@@ -59,7 +59,7 @@ class IndexController extends AbstractController
                 }, $publicPlots),
                 'ownPlots' => array_map(function (Plot $plot) {
                     $plotData = $plot->jsonSerialize();
-                    $plotData['links'] = [
+                    $plotData['_links'] = [
                         'self' => [
                             'rel' => 'plots',
                             'type' => 'GET',
@@ -70,7 +70,7 @@ class IndexController extends AbstractController
                 }, $ownPlots),
                 'participantPlots' => array_map(function (Plot $plot) {
                     $plotData = $plot->jsonSerialize();
-                    $plotData['links'] = [
+                    $plotData['_links'] = [
                         'self' => [
                             'rel' => 'plots',
                             'type' => 'GET',
@@ -80,7 +80,7 @@ class IndexController extends AbstractController
                     return $plotData;
                 }, $participantPlots),
                 'plotGenres' => $plotService->getPlotgenres(),
-                'links' => [
+                '_links' => [
                     'createPlot' => [
                         'href' => $this->generateUrl('create_plot'),
                         'rel' => 'plots',
